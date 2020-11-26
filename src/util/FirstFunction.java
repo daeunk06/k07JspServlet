@@ -6,7 +6,7 @@ import javax.servlet.jsp.JspWriter;
 
 public class FirstFunction {
 
-	public static void srcGUGUdan(JspWriter out) {
+	public static void srcGuGudan(JspWriter out) {
 		try{
 			out.print("<table border='1'>");
 			for(int dan=2; dan<=9; dan++){
@@ -19,6 +19,41 @@ public class FirstFunction {
 			}
 			out.print("</table>");
 		}
-		catch(IOException e){}	
+		catch(IOException e){
+			
+		}	
 	}
+
+	public void tempFunc(JspWriter out) {
+		String str = "나는 문자열";
+		try {
+			out.println(str);
+		} catch (IOException e) {}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

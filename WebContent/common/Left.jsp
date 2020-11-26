@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!-- ul>(li>a)*4 -->
@@ -8,6 +7,3 @@
 	<li><a href="#Notice" class="left_link">공지글</a></li>
 	<li><a href="#Board" class="left_link">자유게시판</a></li>
 </ul>
-
-
-
