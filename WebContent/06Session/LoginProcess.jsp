@@ -5,6 +5,8 @@
     pageEncoding="UTF-8"%>
 <%-- LoginProcess.jsp --%>
 <%
+
+request.setCharacterEncoding("UTF-8");
 //폼값받기
 String id = request.getParameter("user_id");
 String pw = request.getParameter("user_pw");

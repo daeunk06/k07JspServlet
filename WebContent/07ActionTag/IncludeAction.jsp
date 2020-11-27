@@ -12,26 +12,44 @@
 </head>
 <body>
 <%
+//인클루드 할 페이지의 경로를  String으로 설정
 String directivePath = "./include/DirectivePage.jsp";
 String actionTagPath = "./include/ActionTagPage.jsp";
 
+//페이지 영역 , 리퀘스트 영역에 속성을 저장
 pageContext.setAttribute("pageVar", "페이지영역에 저장");
-pageContext.setAttribute("requestVar", "리퀘스트영역에 저장");
+request.setAttribute("requestVar" , "리퀘스트영역에 저장");
 
 %>
 <h2>include액션태그</h2>
+<!-- 
+지시어(디렉티브)를 통한 include는 표현식을 사용할 수 없다
+반드시 문자열로 기술해야한다.
+ -->
 <h3>include 지시어로 페이지 포함하기</h3>
 
-<%@ include file="<%=directivePath %>"%>
+<%--@ include file="<%=directivePath "%>--%>
 <%@ include file="./include/DirectivePage.jsp" %>
 
+<h3>include액션태그롤 페이지 포함하기</h3>
+<jsp:include page="<%=actionTagPath %>"></jsp:include>
+<jsp:include page="./include/ActionTagPage.jsp"></jsp:include>
+<!-- 
+액션태그의 경우에는 표현식,String 두가지 모두 사용할 수 있다.
+ -->
 <h2>각가의 포함된 페이지 안에서 선언한 변수 사용하기</h2>
-
+<!-- include지시어와 액션태그의 차이점
+	지시어:jsp소스를 ㄷ그대로 포함시키고 페이지 실행한다 >> 같은 페이지
+	액션태그
+	jsp소스를 실행한 후 결과를 포함시킨다 기존페이지에서 선언된 변수는
+	포함시킨 페이지에서 사용할 수 없다  page영역은 공유하지 않지만 forward와 
+	같이 request영역은 공유된다.	
+ -->
 <h3>디렉티브 페이지에서 선언한 변수사용</h3>
 변수출력 : <%=dirString%>
 
 <h3>디렉티브 페이지에서 선언한 변수사용</h3>
-변수출력 : <%=actionString%>
+변수출력 : <%--=actionString--%>
 
 
 
