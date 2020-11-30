@@ -27,6 +27,7 @@ dao.close();
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<jsp:include page="../common/boardHead.jsp"/>
 </head>
 <div class="container">
 	<div class="row">		
@@ -77,16 +78,42 @@ dao.close();
 			</div>
 			<div class="row mb-3">
 				<div class="col-6">
+				<%
+				 /* 로그인이 완료된 작성자에게만 수정 삭제 버튼이 보이게 한다. */
+				if(session.getAttribute("USER_ID")!=null &&
+					session.getAttribute("USER_ID").toString().equals(dto.getId())){
+				%>
+				<!-- 게시물 수정하기는 특정 게시물에대해 수행되는 작업이므로 반드시 게시물의 일련번호(pk)가
+				파라미터로 전달되어야 한다. 수정은 상세보기+글쓰기가 포함된 형태로 구현해야한다. -->
 					<button type="button" class="btn btn-secondary"
-						onclick="';">수정하기</button>
+						onclick="location.href='BoardEdit.jsp?num=<%=dto.getNum()%>';">수정하기</button>
 					<button type="button" class="btn btn-success"
-						onclick="">삭제하기</button>
+						onclick="isDelete()">삭제하기</button>
+				<%} %>
+				<!-- 게시물 삭제의 경우 로그인 된 상태이므로 해당 게시물의 일련번호만 서버로 전송하면 된다
+				. 이때 hidden폼을 사용하고 js의 submit()함수를 통해서 폼값을 전송한다
+				해당 form태그는 html문서 어디든 위치할 수 있다.  -->
+				<form name="deleteFrm">
+					<input type="hidden" name="num" value="<%=dto.getNum() %>" />
+				</form>
+				<script>
+					function isDelete() {
+						var c = confirm("삭제할까요?");
+						if(c){
+							var f = document.deleteFrm;
+							f.method = "post";
+							f.action = "DeleteProc.jsp";
+							f.submit();
+						}
+						
+						
+					}
+				</script>
 				</div>
 				<div class="col-6 text-right pr-5">					
 					<button type="button" class="btn btn-warning" onclick="location.href='BoardList.jsp';">리스트보기</button>
 				</div>	
 			</div>
-
 			
 			
 				
