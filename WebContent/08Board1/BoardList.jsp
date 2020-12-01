@@ -26,6 +26,9 @@ DAO의 메소드를 호출할때 전달할것임.
 */
 Map<String, Object> param =new HashMap<String , Object>();
 
+//겟방식으로 전달되는 폼값을 페이지번호로 넘겨주기 위해 문자열로 저장
+String queryStr = "";
+
 String searchColumn = request.getParameter("searchColumn");
 String searchWord = request.getParameter("searchWord");
 //검색어가 입력된경우 전송된 폼값을 받아 map에 저장한다
@@ -36,29 +39,44 @@ if(searchWord!=null){
 	*/
 	param.put("Column",searchColumn);
 	param.put("Word",searchWord);
+	
+	//검색어가 있을때 쿼리스트링을 만들어준다
+	queryStr += "searchColumn=" + searchColumn+
+		"&searchWord="+searchWord+"&";
 }
 //board테이블에 입력된 전체 레코드 갯수를 카운트하여 반환
-int totalRecordCount = dao.getTotalRecordCount(param);
+//int totalRecordCount = dao.getTotalRecordCount(param); join x
+int totalRecordCount = dao.getTotalRecordCountSearch(param);// join O
 /* 페이지 처리 start */
+//한페이지에 출력할 레코드의 갯수
 int pageSize =
 Integer.parseInt(application.getInitParameter("PAGE_SIZE"));
+//한블럭당 출력할 페이지 번호의 갯수
 int blockPage =
 Integer.parseInt(application.getInitParameter("BLOCK_PAGE"));
 
+//전체 페이지수 계산 108개라면 108/10 >> ceil(10.8)=>11페이지
 int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+
+//현제 페이지 번호: 파라미터가 없을 때는 무조건 1페이지로 지정하고,
+// 값이 있을 떄는 해당값을 얻어와서 숫자로 변경 즉 리스트 첫 진입시 1페이지
 int nowPage = (request.getParameter("nowPage")==null
 		|| request.getParameter("nowPage").equals(""))
 	? 1 :  Integer.parseInt(request.getParameter("nowPage"));
+
+//한페이지에 출력할 게시물의 범위를 결정한다 계산식은 교안 참조
 int start = (nowPage-1)*pageSize + 1;
 int end = nowPage * pageSize;
 
+//게시물의 범위를 map컬렉션에 저장하고 DAO로 전달한다.
 param.put("start", start);
 param.put("end", end);
 /* 페이지 처리 end  */
 
 //board테이블의 레코드를 select하여 결과셋을 list컬렉션으로 반환
 //List<BbsDTO> bbs = dao.selectList(param);페이지 처리 없음
-List<BbsDTO> bbs = dao.selectListPage(param);//페이지 처리 있음
+//List<BbsDTO> bbs = dao.selectListPage(param);//페이지 처리 있음
+List<BbsDTO> bbs = dao.selectListPageSearch(param);//페이지 처리 있음
 
 //DB자원해제
 dao.close();
@@ -89,8 +107,9 @@ dao.close();
 							<option value="content"
 							<%=(searchColumn!=null && searchColumn.equals("content")) ?
 									"selected" : ""%>>내용</option>
-							<!--이름으로 검색하려면 join이 필요해 차후에 할 예정  -->
-							<!-- <option value="id">작성자</option> -->
+							<option value="name"
+							<%=(searchColumn!=null && searchColumn.equals("name")) ?
+									"selected" : ""%>>작성자</option> 
 						</select>
 					</div>
 					<div class="input-group">
@@ -109,7 +128,7 @@ dao.close();
 				<colgroup>
 					<col width="60px"/>
 					<col width="*"/>
-					<col width="120px"/>
+					<col width="150px"/>
 					<col width="120px"/>
 					<col width="80px"/>
 					<!-- <col width="60px"/> -->
@@ -167,11 +186,11 @@ dao.close();
 						<%=vNum %>
 					</td>
 					<td>
-						<a href="BoardView.jsp?num=<%=dto.getNum()%>">
+						<a href="BoardView.jsp?num=<%=dto.getNum()%>&nowPage=<%=nowPage %>&<%=queryStr%>">
 							<%=dto.getTitle()%>
 						</a>
 					</td>
-					<td><%=dto.getId() %></td>
+					<td><%=dto.getName() %><br /><%=dto.getId() %></td>
 					<td><%=dto.getPostDate()%></td>
 					<td><%=dto.getVisitcount() %></td>
 					<!-- <td class="text-center"><i class="material-icons" style="font-size:20px">attach_file</i></td> -->
@@ -209,11 +228,15 @@ dao.close();
 						int nowPage, 현재페이지 번호
 						BoardList.jsp : 해당 게시판의 실행 파일명
 						--> 
-					<%=PagingUtil.pagingBS4(totalRecordCount, pageSize, blockPage, nowPage, "BoardList.jsp?")%>
+					<%=PagingUtil.pagingBS4(totalRecordCount, pageSize, blockPage, nowPage, "BoardList.jsp?"+queryStr)%>
 					</ul>
 					
-				</div>				
+				</div>	
 			</div>		
+			<div class="text-center">
+				<%=PagingUtil.pagingImg( totalRecordCount,
+						 pageSize, blockPage,  nowPage, "BoardList.jsp?"+queryStr)%>	
+			</div>	
 		<!--  ###게시판의 body 부분 end   -->
 		</div>
 	</div>

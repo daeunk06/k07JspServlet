@@ -13,7 +13,8 @@
 	<div class="row">		
 		<jsp:include page="../common/boardLeft.jsp"></jsp:include>
 		<div class="col-9 pt-3">
-		<!-- ###게시판의 body 부분 start -->
+		<!--
+		 ###게시판의 body 부분 start -->
 			<h3>게시판 - <small>Write(글쓰기)</small></h3>
 <script>
 //글쓰기 폼에 빈값이 있는경우 서버로 전송 되지 않도록 아래 validate함수를 완성해라
