@@ -15,7 +15,7 @@
 <body>
 	
 	<h3>구구단출력1 - 표현식으로 구현</h3>
-	table>tr>td
+	
 	<table border="1">
 	<%
 	//단만큼 반복한다.

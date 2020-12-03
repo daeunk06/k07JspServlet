@@ -25,15 +25,19 @@
 		<li>\${"100"+10 } : ${"100"+10 } </li>
 		<%-- <li>\${"백"+10 } : \${"백"+10 } </li> 에러--%>
 		<%-- <li>\${"Hello"+"EL" } : \${"Hello"+"EL"} </li> 에러 --%>
+	<%-- 문자열 쓰고싶으면 +말고 ${} ${}이렇게 따로 쓰면 된다. --%>
 	</ul>
 	
 	<h2>인덱스로 접근시( 배열이나 리스트계열 컬렉션)</h2>
 	<%
+	/* String형 배열을 선언후 각 요소들을 list컬렉션에 삽입. */
 		String mountains[] = {"한라산","지리산","설악산"};
 		
 		List list = new Vector();
 		for(String mountain : mountains) list.add(mountain);
 	%>
+	<!-- jstl의 set태그를 통해 변수를 생성 및 값을 할당한다
+	해당변수는 page영역에 저장된다. -->
 	<c:set var="elArray" value="<%=mountains%>" />
 	<c:set var="elCollection" value="<%=list%>" />
 	<ul>
@@ -43,13 +47,25 @@
 <%-- 	<li>\${elCollection.0 } : ${elCollection.0 } [500에러]</li> --%>
 		
 	</ul>
+	<%-- el에서 속성에 접근시 -이 포함되는경우에는 .으로 표현할 수 엇고
+	반드시 [를 통해 표현한다. ${header["ueser-agent"]} ok
+	$header.user-agent 이건 오류 --%>
 	<h2>배열과 리스트 계열 컬렉션 출력</h2>
 	<h4>배열</h4>
+	<!-- jstl의 forEach태그를 통해 반복출력한다. -->
 	<c:forEach items="${elArray }" var="mountain">
 		${mountain}&nbsp;
 	</c:forEach>
 	
+      <h4>컬렉션</h4>
+      <c:forEach items="${elCollection }" var="mountain">
+         ${mountain }&nbsp;
+      </c:forEach>
+	
+	
 	<h2>인덱스를 벗어난 경우</h2>
+	<!-- 인덱스를 초과하면 예외가 발생해야하지만 el에서는 잡아주므로
+		발생하지 않는다. -->
 	<ul>
 		<li>\${elArray[3] }
 			:${elArray[3]} [에러NO, 미출력]</li>

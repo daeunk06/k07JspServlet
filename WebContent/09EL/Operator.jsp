@@ -68,7 +68,13 @@
 	<h3>EL변수에 값 할당</h3>
 	<c:set var="fnum" value="9"/>
 	<c:set var="snum" value="5"/>
-	\${fnum=99 } : ${fnum=99 } 
+	\${fnum=99 } : ${fnum=99 } <!-- 99로 재 할당이 되어 99가 출력됨 -->
+	
+	<!-- 
+		EL에서는 정수와 정수를 연산하더라도 실수의 결과가 나올 수 있다
+		즉, 자동 형변환되어 출력한다
+		나눗셈을 위한 /연산자 대신div 나머지를 구하는 %대신 mod사용가능
+	 -->
 	
 	<h3>EL의 산술연산자</h3>
 	<ul>
@@ -79,6 +85,10 @@
 		<li>\${fnum % snum } : ${fnum % snum }</li>
 		<li>\${fnum mod snum } : ${fnum mod snum }</li>
 		
+		<!-- el에서 +는 덧셈용도로만 사용한다 문자열을 연결할 경우
+			numberformatException이 발생한다. "100"이친구는
+			숫자로 인식함 (애초에 +가 덧셈기호라서 문자열도 숫자인지 판단해)
+		 -->
 		<li>\${"100"+100 } : ${"100"+100 }</li>
 		<li>\${"Hello~"+"EL~" } : \${"Hello~"+"EL~" }</li>
 		<li>\${"일"+ 2 } : \${"일"+ 2 }</li>
@@ -88,10 +98,18 @@
 	<h3>EL의 비교연산자</h3>
 	<c:set var="fnum" value="100" />
 	<c:set var="snum" value="90" />
+	<!-- fnum과 snum은 영역에 저장된 데이터라 object형으로 저장되어
+	객체상태에서 비교가 이루어진다. -->
 	<ul>
-		<li>\${fnum > snum } : ${fnum > snum }</li>
-		<li>\${100 > 99 } : ${100 > 99 }</li>
+		<li>\${fnum > snum } : ${fnum > snum }</li> <!-- false
+		 (1이랑 9먼저 비교해서 바로 거짓때려버림) el에서는 변수의 값을 모두 
+		 문자열로 인식해서  compareTo와 같은 방식으로 비교하기 때문이야 -->
+		<li>\${100 > 99 } : ${100 > 99 }</li> <!-- true 순수한 숫자는 비교 잘함 -->
 
+		<!-- 
+			Java에서는 문자열을 비교할때 equals()로 비교하지만
+			EL에는 ==의 형태로 비교한다.
+		 -->
 		<li>\${"JAVA" == "JAVA" } : ${"JAVA" == "JAVA"  }</li>
 		<li>\${'JAVA' == 'JAVA' } : ${'JAVA' == 'JAVA'  }</li>		
 	</ul>
