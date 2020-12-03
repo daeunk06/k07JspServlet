@@ -12,6 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+	
 	<h2>일반 for문 형태의 forEach태그</h2>
 	<!-- step 증가치-->
 	<h3>JSTL 및 EL태그로 Hn태그 출력하기</h3>
@@ -58,11 +59,27 @@
 			<c:if test="${x ne y}">
 				<c:set value="0" var="p"/>
 			</c:if>
-			${p }
+			${p }&nbsp;
 		</c:forEach>
 		<br>
 	</c:forEach>
 
+	<h4>Choose문 사용하기</h4>
+	<!-- 하나의 문장이 끝나기 전에 주석이 들어가면 안돼  -->
+	<c:forEach begin="1" end="5" var="x">
+		<c:forEach begin="1" end="5" var="y">
+		<c:choose>		
+			<c:when test="${x==y }">
+				1&nbsp;
+			</c:when>
+			<c:otherwise>
+				0&nbsp;
+			</c:otherwise>
+		</c:choose>
+		</c:forEach>
+		<!-- 줄바꿈이 됩니다 -->
+		<br>
+	</c:forEach>
 
 
 
@@ -76,7 +93,7 @@
 <h3>JSTL로 출력하기</h3>
 	<h3>구구단출력1 - 표현식으로 구현</h3>
 	
-	
+	<!-- 내가쓴 코드 -->
 	<table border="1">
 	
 	<c:forEach begin="2" end="9" var="dan">
@@ -100,7 +117,7 @@
 	</table>
 	
 	
-	
+	<!-- 쌤 코드 삽입  -->
 	
 	
 	

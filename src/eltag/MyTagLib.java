@@ -1,6 +1,5 @@
 package eltag;
 
-import com.sun.org.apache.regexp.internal.recompile;
 
 import model.MemberDAO;
 
