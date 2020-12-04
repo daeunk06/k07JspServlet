@@ -63,10 +63,10 @@ public class MyFileDAO {
 				MyFileDTO dto = new MyFileDTO();
 				dto.setIdx(rs.getString(1));
 				dto.setName(rs.getString(2));
-				dto.setTitle(rs.getString(6));
-				dto.setInter(rs.getString(3));
-				dto.setOfile(rs.getString(4));
-				dto.setSfile(rs.getString(5));
+				dto.setTitle(rs.getString(3));
+				dto.setInter(rs.getString(4));
+				dto.setOfile(rs.getString(5));
+				dto.setSfile(rs.getString(6));
 				dto.setPostdate(rs.getString(7));
 				
 				fileList.add(dto);
