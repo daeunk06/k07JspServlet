@@ -45,8 +45,10 @@ File[] fileList = file.listFiles();
 		fileCnt++;
 	}
 	%>
+	
 	</ul>
 	<h2>DB에 등록된 파일 리스트 보기</h2>
+	<a href="FileUploadMain.jsp"></a>
 	<%
 	MyFileDTO dto = new MyFileDTO();
 	MyFileDAO dao = new MyFileDAO(application);
@@ -54,7 +56,7 @@ File[] fileList = file.listFiles();
 	//out.print(fileList.size());
 	%>
 	<table border="1">
-	<%for(MyFileDTO f : fileLists){ %>
+	<%for(MyFileDTO f : fileLists){ %> 
 		<tr>
 			<td><%=f.getIdx() %></td>
 			<td><%=f.getName() %></td>

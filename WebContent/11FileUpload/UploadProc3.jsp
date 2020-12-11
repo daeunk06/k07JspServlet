@@ -50,6 +50,7 @@ try{
 	1~4번까지 준비한 인자를 이용하여 아래 객체를 생성한다
 	객체가 정상적으로 생성디면 파일업로드 완료
 	최대용량 혹은 디렉토리 경로가 잘못된경우 예외
+	여기서 이미 파일 업로드가 된거임 객체 잘 생겼으면
 	*/
 	mr = new MultipartRequest(request, saveDirectory, maxPostSize,
 			encoding, policy);

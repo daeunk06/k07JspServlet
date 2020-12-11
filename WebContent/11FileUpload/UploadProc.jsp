@@ -1,3 +1,5 @@
+<%@page import="model.MyFileDAO"%>
+<%@page import="model.MyFileDTO"%>
 <%@page import="java.io.File"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -62,7 +64,7 @@ try{
 		inter.append(s + ",&nbsp;");
 	}
 	/////////db처리 소스 추가////////
-	/*
+	
 	MyFileDTO dto = new MyFileDTO();
 	dto.setName(name);
 	dto.setTitle(title);
@@ -74,9 +76,9 @@ try{
 	dao.myfileInsert(dto);
 	
 	response.sendRedirect("FileList.jsp");
-	*/
+	
 	////////추가부분 start ///////////////
-	/* String fileName = mr.getFilesystemName("chumFile1");
+	String fileName = mr.getFilesystemName("chumFile1");
 	
 	String nowTime = new SimpleDateFormat("yyyy_MM_dd_H_m_s_S")
 				.format(new Date());
@@ -88,7 +90,7 @@ try{
 	oldFile = new File(saveDirectory + oldFile.separator+fileName);
 	newFile = new File(saveDirectory+oldFile.separator+realFileName);
 	
-	oldFile.renameTo(newFile); */
+	oldFile.renameTo(newFile); 
 	////////추가부분end /////////////////////
 }
 catch(Exception e )

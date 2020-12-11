@@ -1,7 +1,6 @@
 <%@page import="util.PagingUtil"%>
 <%@page import="model.BbsDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="jdk.management.resource.internal.TotalResourceContext"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="model.BbsDAO"%>
@@ -16,7 +15,10 @@ String drv = application.getInitParameter("JDBCDriver");
 String url = application.getInitParameter("ConnectionURL");
 
 //DAO객체생성 및 DB커넥션
-BbsDAO dao = new BbsDAO(drv,url);
+//BbsDAO dao = new BbsDAO(drv,url);
+
+//커넥션풀(dbcp)를 통한 dao객체 새엉 및 db 연결
+BbsDAO dao = new BbsDAO();
 
 /*
 파라미터를 저장할 용도로 생성한 Map컬렉션 . 여러개의 파라미터를 한꺼번에 저장한 후 
@@ -55,9 +57,8 @@ Integer.parseInt(application.getInitParameter("PAGE_SIZE"));
 int blockPage =
 Integer.parseInt(application.getInitParameter("BLOCK_PAGE"));
 
-//전체 페이지수 계산 108개라면 108/10 >> ceil(10.8)=>11페이지
+//전체 페이지수 계산 108개라면 108/10 >> ceil(10.8)=>11.0페이지
 int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
-
 //현제 페이지 번호: 파라미터가 없을 때는 무조건 1페이지로 지정하고,
 // 값이 있을 떄는 해당값을 얻어와서 숫자로 변경 즉 리스트 첫 진입시 1페이지
 int nowPage = (request.getParameter("nowPage")==null

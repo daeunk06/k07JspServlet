@@ -4,15 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
-
-import java.util.List;
-
-
-import oracle.net.aso.q;
+import javax.sql.DataSource;
 
 public class BbsDAO {
 	Connection con; //커넥션 객체를 멤버변수로 설정하여 공유
@@ -161,6 +160,23 @@ public class BbsDAO {
 			con = DriverManager.getConnection(
 					ctx.getInitParameter("ConnectionURL"),id,pw);
 			System.out.println("DB연결 성공!!");
+		} catch (Exception e) {
+			System.out.println("DB연결 실패ㅜ^ㅜ");
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 생성자3: 커넥션풀(을 이용한 db연결
+	 */
+	public BbsDAO() {
+		try {
+			Context initctx = new InitialContext();  
+			Context ctx = (Context)initctx.lookup("java:comp/env"); 
+			DataSource source = (DataSource)ctx.lookup("jdbc/myoracle"); 
+			con = source.getConnection();
+			
+			System.out.println("DBCP 연결 성공!!");
 		} catch (Exception e) {
 			System.out.println("DB연결 실패ㅜ^ㅜ");
 			e.printStackTrace();
